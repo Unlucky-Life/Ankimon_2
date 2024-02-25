@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Piplup",
+    "gender": "M",
+    "level": 5,
+    "id": 393,
+    "ability": "Torrent",
+    "type": [
+      "Water"
+    ],
+    "stats": {
+      "hp": 53,
+      "atk": 51,
+      "def": 53,
+      "spa": 61,
+      "spd": 56,
+      "spe": 40,
+      "xp": 0
+    },
+    "ev": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "iv": {
+      "hp": 29,
+      "atk": 16,
+      "def": 2,
+      "spa": 32,
+      "spd": 26,
+      "spe": 3
+    },
+    "attacks": [
+      "pound",
+      "growl"
+    ],
+    "base_experience": 100,
+    "current_hp": 23,
+    "growth_rate": "medium-slow",
+    "evos": [
+      "Prinplup"
+    ]
+  }
+]
