@@ -59,7 +59,7 @@ def check_file_exists(folder, filename):
         #showInfo(f"File '{filename}' exists in '{folder}'.")
         return True
     else:
-        showInfo(f"File '{filename}' does not exist in '{folder}'.")
+        #showInfo(f"File '{filename}' does not exist in '{folder}'.")
         return False
 
 # Assign Pokemon Image folder directory name
@@ -125,9 +125,11 @@ class CheckFiles(QDialog):
     def __init__(self):
         super().__init__()
 
-        check_files_message = ""
-        check_files_message = f"Pokemon Database downloaded: {sprites_complete} \nPokemon Sprites: {database_complete}"
-
+        check_files_message = "Pokemon Files downloaded:"
+        if database_complete != True:
+            check_files_message += f" \n All Pokemon Sprites complete: {database_complete} \n  Please go to Ankimon => 'Download Sprite Files' to download the needed files"
+        if sprites_complete != True:
+            check_files_message += f" \n All Pokemon Files complete: {database_complete} \n  Please go to Ankimon => 'Download Database Files' to download the needed files"
         # Set the window title for the dialog
         self.setWindowTitle("Ankimon Files Checker")
 
@@ -144,9 +146,10 @@ class CheckFiles(QDialog):
         self.setLayout(self.layout)
 
 dialog = CheckFiles()
-if database_complete and sprites_complete is False:
+if database_complete != True:
     dialog.show()
-
+elif sprites_complete != True:
+    dialog.show()
 
 window = None
 gender = None
@@ -1521,15 +1524,16 @@ def mainpokemon_data():
         showInfo("Please Choose a Mainpokemon !")
 
 #get main pokemon details:
-try:
-    mainpokemon_name, mainpokemon_id, mainpokemon_ability, mainpokemon_type, mainpokemon_stats, mainpokemon_attacks, mainpokemon_level, mainpokemon_base_experience, mainpokemon_xp, mainpokemon_hp, mainpokemon_current_hp, mainpokemon_growth_rate, mainpokemon_ev, mainpokemon_iv, mainpokemon_evolutions, mainpokemon_battle_stats, mainpokemon_gender = mainpokemon_data()
-    starter = True
-except:
-    starter = False
-    showInfo("No Mainpokemon selected yet!")
-if all_species != False:
+if database_complete and sprites_complete != False:
+    try:
+        mainpokemon_name, mainpokemon_id, mainpokemon_ability, mainpokemon_type, mainpokemon_stats, mainpokemon_attacks, mainpokemon_level, mainpokemon_base_experience, mainpokemon_xp, mainpokemon_hp, mainpokemon_current_hp, mainpokemon_growth_rate, mainpokemon_ev, mainpokemon_iv, mainpokemon_evolutions, mainpokemon_battle_stats, mainpokemon_gender = mainpokemon_data()
+        starter = True
+        showInfo("You can pick your main pokemon now")
+    except:
+        starter = False
+        showInfo("No Mainpokemon selected yet!")
     name, id, level, ability, type, stats, enemy_attacks, base_experience, growth_rate, hp, max_hp, ev, iv, gender, battle_status, battle_stats = generate_random_pokemon()
-battlescene_file = random_battle_scene()
+    battlescene_file = random_battle_scene()
 
 def show_random_pokemon():
     global hp, name, id, stats, level, max_hp, base_experience, ev, iv
@@ -3951,7 +3955,7 @@ class AgreementDialog(QDialog):
 
 life_bar_injected = False
 
-if front_sprites != False and starter != False:
+if sprites_complete != False and database_complete != False:
     def reviewer_reset_life_bar_inject():
         global life_bar_injected
         life_bar_injected = False
@@ -5347,7 +5351,7 @@ class IDTableWidget(QWidget):
     def show_gen_chart(self):
         self.show()
 
-if front_sprites != False:
+if sprites_complete and database_complete!= False:
     if mypokemon_path.is_file() is False:
         starter_window.display_starter_pokemon()
     else:
@@ -5355,8 +5359,6 @@ if front_sprites != False:
             pokemon_list = json.load(file)
             if not pokemon_list :
                 starter_window.display_starter_pokemon()
-else:
-    showWarning("Please download with the Downloadbuttons in 'Ankimon => Download PokeApi Sprites' the needed sprites")
 
 eff_chart = TableWidget()
 gen_id_chart = IDTableWidget()
@@ -5634,10 +5636,10 @@ test_action12 = QAction("Check Generations and Pokemon Chart", mw)
 test_action12.triggered.connect(gen_id_chart.show_gen_chart)
 mw.pokemenu.addAction(test_action12)
 
-test_action3 = QAction("Download Pokemon Database", mw)
+test_action3 = QAction("Download Database Files", mw)
 qconnect(test_action3.triggered, pokeapi_db_downloader)
 mw.pokemenu.addAction(test_action3)
-test_action4 = QAction("Download PokeApiSprites", mw)
+test_action4 = QAction("Download Sprite Files", mw)
 qconnect(test_action4.triggered, show_agreement_and_downloadsprites)
 mw.pokemenu.addAction(test_action4)
 test_action4 = QAction("Download PokemonShowDownSprites", mw)
